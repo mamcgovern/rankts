@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/www.rankts.com/static/css/main.46af8b47.css",
-    "main.js": "/www.rankts.com/static/js/main.2ca632ff.js",
+    "main.js": "/www.rankts.com/static/js/main.72f74d84.js",
     "index.html": "/www.rankts.com/index.html",
     "main.46af8b47.css.map": "/www.rankts.com/static/css/main.46af8b47.css.map",
-    "main.2ca632ff.js.map": "/www.rankts.com/static/js/main.2ca632ff.js.map"
+    "main.72f74d84.js.map": "/www.rankts.com/static/js/main.72f74d84.js.map"
   },
   "entrypoints": [
     "static/css/main.46af8b47.css",
-    "static/js/main.2ca632ff.js"
+    "static/js/main.72f74d84.js"
   ]
 }
