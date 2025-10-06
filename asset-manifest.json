@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/static/css/main.46af8b47.css",
-    "main.js": "/static/js/main.2ca632ff.js",
-    "index.html": "/index.html",
-    "main.46af8b47.css.map": "/static/css/main.46af8b47.css.map",
-    "main.2ca632ff.js.map": "/static/js/main.2ca632ff.js.map"
+    "main.css": "/www.rankts.com/static/css/main.46af8b47.css",
+    "main.js": "/www.rankts.com/static/js/main.2ca632ff.js",
+    "index.html": "/www.rankts.com/index.html",
+    "main.46af8b47.css.map": "/www.rankts.com/static/css/main.46af8b47.css.map",
+    "main.2ca632ff.js.map": "/www.rankts.com/static/js/main.2ca632ff.js.map"
   },
   "entrypoints": [
     "static/css/main.46af8b47.css",
