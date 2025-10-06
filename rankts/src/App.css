@@ -1,38 +1,77 @@
-.App {
-  text-align: center;
+/* App.css */
+
+/* Fonts */
+body {
+  font-family: 'Libre Baskerville', serif;
+  background-color: #d3faf7; /* lightest color as background */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+h1, h2, h3, .card-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+button.btn {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* Button colors */
+.btn-primary {
+  background-color: #e15921;
+  border-color: #e15921;
 }
 
-.App-link {
-  color: #61dafb;
+.btn-primary:hover {
+  background-color: #e98b5b;
+  border-color: #e98b5b;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.btn-success {
+  background-color: #3f816c;
+  border-color: #3f816c;
+}
+
+.btn-success:hover {
+  background-color: #8dd3c6;
+  border-color: #8dd3c6;
+}
+
+.btn-secondary {
+  background-color: #d73f00;
+  border-color: #d73f00;
+}
+
+.btn-secondary:hover {
+  background-color: #e98b5b;
+  border-color: #e98b5b;
+}
+
+/* Progress bar */
+.progress-bar {
+  background-color: #e15921;
+}
+
+/* Cards */
+.card {
+  border-radius: 0.75rem;
+  border: 2px solid #e15921;
+}
+
+/* Comparison “VS” text */
+strong {
+  color: #d73f00;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+}
+
+/* List group for final ranking */
+.list-group-item {
+  background-color: #e98b5b;
+  color: #ffffff;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  margin-bottom: 4px;
+  border-radius: 0.5rem;
+  border: none;
 }

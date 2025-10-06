@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Comparison from './Comparison';
+import { ProgressBar, Button } from 'react-bootstrap';
 
 export default function SongRanker({ songs }) {
   const [rankedSongs, setRankedSongs] = useState([]);
@@ -12,8 +13,6 @@ export default function SongRanker({ songs }) {
     if (rankedSongs.length === 0) {
       const [first, ...rest] = unrankedSongs;
       setRankedSongs([first]);
-      setUnrankedSongs(rest);
-
       const [next, ...rest2] = rest;
       setCurrentSong(next);
       setUnrankedSongs(rest2);
@@ -57,40 +56,47 @@ export default function SongRanker({ songs }) {
     setComparingTo(updatedRanked[0]);
   };
 
-  // Render final ranking
+  // FINAL RANKING: compact, no videos
   if (!currentSong && rankedSongs.length === songs.length) {
     return (
-      <div className="text-center">
-        <h2 className="text-2xl font-semibold mb-4">Final Ranking</h2>
-        <ol className="list-decimal text-left inline-block">
-          {rankedSongs.map((song) => (
-            <li key={song.id}>{song.title}</li>
+      <div>
+        <h3 className="mb-3 text-center">Final Ranking</h3>
+        <ul className="list-group">
+          {rankedSongs.map((song, i) => (
+            <li 
+              key={song.id} 
+              className="list-group-item d-flex justify-content-between align-items-center py-1 px-2"
+            >
+              <span>{i + 1}. {song.title}</span>
+            </li>
           ))}
-        </ol>
+        </ul>
+        <div className="text-center mt-3">
+          <button className="btn btn-sm btn-secondary" onClick={() => window.location.reload()}>
+            Restart
+          </button>
+        </div>
       </div>
     );
   }
 
-  // Before starting
+  // START BUTTON PAGE
   if (!currentSong || !comparingTo) {
     return (
       <div className="text-center">
-        <p className="mb-4">Ready to start ranking?</p>
-        <button
-          onClick={startComparison}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Start
-        </button>
+        <Button onClick={startComparison}>Start Ranking</Button>
       </div>
     );
   }
 
+  // COMPARISON PAGE
+  const progressPercent = Math.round(
+    ((songs.length - unrankedSongs.length) / songs.length) * 100
+  );
+
   return (
-    <div className="flex flex-col items-center">
-      <p className="mb-2 text-gray-600">
-        {songs.length - unrankedSongs.length} / {songs.length} songs ranked
-      </p>
+    <div>
+      <ProgressBar now={progressPercent} label={`${progressPercent}%`} className="mb-3" />
       <Comparison songA={currentSong} songB={comparingTo} onSelect={handleChoice} />
     </div>
   );
