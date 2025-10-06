@@ -1,103 +1,100 @@
-import React, { useState } from 'react';
-import Comparison from './Comparison';
-import { ProgressBar, Button } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import Comparison from "./Comparison";
+import FinalRanking from "./FinalRanking";
 
-export default function SongRanker({ songs }) {
-  const [rankedSongs, setRankedSongs] = useState([]);
-  const [unrankedSongs, setUnrankedSongs] = useState([...songs]);
+const SongRanker = ({ songs }) => {
+  const [sortedSongs, setSortedSongs] = useState([]);
+  const [unsortedSongs, setUnsortedSongs] = useState([...songs]);
   const [currentSong, setCurrentSong] = useState(null);
-  const [comparisonIndex, setComparisonIndex] = useState(0);
-  const [comparingTo, setComparingTo] = useState(null);
+  const [left, setLeft] = useState(0);
+  const [right, setRight] = useState(0);
+  const [mid, setMid] = useState(0);
+  const [insertionActive, setInsertionActive] = useState(false);
+  const [started, setStarted] = useState(false);
 
-  const startComparison = () => {
-    if (rankedSongs.length === 0) {
-      const [first, ...rest] = unrankedSongs;
-      setRankedSongs([first]);
-      const [next, ...rest2] = rest;
-      setCurrentSong(next);
-      setUnrankedSongs(rest2);
-      setComparisonIndex(0);
-      setComparingTo(first);
+  // Start insertion when ranking begins
+  useEffect(() => {
+    if (started && unsortedSongs.length > 0 && !insertionActive) {
+      startInsertion(unsortedSongs[0]);
     }
-  };
+  }, [unsortedSongs, insertionActive, started]);
 
-  const handleChoice = (choice) => {
-    if (!currentSong || !comparingTo) return;
-
-    if (choice === 'current') {
-      const newRanked = [
-        ...rankedSongs.slice(0, comparisonIndex),
-        currentSong,
-        ...rankedSongs.slice(comparisonIndex),
-      ];
-      setRankedSongs(newRanked);
-      moveToNextSong(newRanked);
-    } else if (comparisonIndex + 1 < rankedSongs.length) {
-      setComparisonIndex(comparisonIndex + 1);
-      setComparingTo(rankedSongs[comparisonIndex + 1]);
+  const startInsertion = (song) => {
+    if (sortedSongs.length === 0) {
+      setSortedSongs([song]);
+      setUnsortedSongs(unsortedSongs.slice(1));
     } else {
-      const newRanked = [...rankedSongs, currentSong];
-      setRankedSongs(newRanked);
-      moveToNextSong(newRanked);
+      setCurrentSong(song);
+      setLeft(0);
+      setRight(sortedSongs.length - 1);
+      setMid(Math.floor((0 + sortedSongs.length - 1) / 2));
+      setInsertionActive(true);
     }
   };
 
-  const moveToNextSong = (updatedRanked) => {
-    if (unrankedSongs.length === 0) {
+  const handleSelect = (choice) => {
+    let newLeft = left;
+    let newRight = right;
+    let newMid = mid;
+
+    if (choice === "A") {
+      // Current song wins → go left
+      newRight = mid - 1;
+    } else {
+      // Current song loses → go right
+      newLeft = mid + 1;
+    }
+
+    if (newLeft > newRight) {
+      const newSorted = [
+        ...sortedSongs.slice(0, newLeft),
+        currentSong,
+        ...sortedSongs.slice(newLeft),
+      ];
+      setSortedSongs(newSorted);
+      setUnsortedSongs(unsortedSongs.slice(1));
+      setInsertionActive(false);
       setCurrentSong(null);
-      setComparingTo(null);
-      return;
+    } else {
+      newMid = Math.floor((newLeft + newRight) / 2);
+      setLeft(newLeft);
+      setRight(newRight);
+      setMid(newMid);
     }
-
-    const [next, ...rest] = unrankedSongs;
-    setCurrentSong(next);
-    setUnrankedSongs(rest);
-    setComparisonIndex(0);
-    setComparingTo(updatedRanked[0]);
   };
 
-  // FINAL RANKING: compact, no videos
-  if (!currentSong && rankedSongs.length === songs.length) {
+  // Show “Start Now” button
+  if (!started) {
     return (
-      <div>
-        <h3 className="mb-3 text-center">Final Ranking</h3>
-        <ul className="list-group">
-          {rankedSongs.map((song, i) => (
-            <li 
-              key={song.id} 
-              className="list-group-item d-flex justify-content-between align-items-center py-1 px-2"
-            >
-              <span>{i + 1}. {song.title}</span>
-            </li>
-          ))}
-        </ul>
-        <div className="text-center mt-3">
-          <button className="btn btn-sm btn-secondary" onClick={() => window.location.reload()}>
-            Restart
-          </button>
-        </div>
+      <div style={{ width: "100%", textAlign: "center", marginTop: "2rem" }}>
+        <h2>Ready to rank the songs?</h2>
+        <button
+          className="btn btn-success"
+          onClick={() => setStarted(true)}
+        >
+          Start Now
+        </button>
       </div>
     );
   }
 
-  // START BUTTON PAGE
-  if (!currentSong || !comparingTo) {
+  // All songs ranked → show final list
+  if (unsortedSongs.length === 0 && !insertionActive) {
+    return <FinalRanking sortedSongs={sortedSongs} />;
+  }
+
+  // During insertion → show “this or that” comparison
+  if (currentSong) {
     return (
-      <div className="text-center">
-        <Button onClick={startComparison}>Start Ranking</Button>
-      </div>
+      <Comparison
+        songA={currentSong}
+        songB={sortedSongs[mid]}
+        onSelect={handleSelect}
+      />
     );
   }
 
-  // COMPARISON PAGE
-  const progressPercent = Math.round(
-    ((songs.length - unrankedSongs.length) / songs.length) * 100
-  );
+  return null;
+};
 
-  return (
-    <div>
-      <ProgressBar now={progressPercent} label={`${progressPercent}%`} className="mb-3" />
-      <Comparison songA={currentSong} songB={comparingTo} onSelect={handleChoice} />
-    </div>
-  );
-}
+export default SongRanker;

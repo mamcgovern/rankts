@@ -1,47 +1,69 @@
-/* App.css */
-
-/* Fonts */
-body {
+/* Full-page background and fonts */
+html, body, #root {
+  height: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+  background-color: #d3faf7 !important; /* pastel background */
   font-family: 'Libre Baskerville', serif;
-  background-color: #d3faf7; /* lightest color as background */
+  color: #3f816c;
 }
 
-h1, h2, h3, .card-title {
+/* Center main app content */
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;       /* horizontally center */
+  justify-content: flex-start; /* keep content at top */
+  width: 100%;
+  max-width: 800px;          /* compact layout for screenshots */
+  margin: 0 auto;
+  background-color: transparent;
+  padding-top: 5rem;         /* plenty of space above the title */
+}
+
+/* Page title styling */
+h1 {
+  margin-bottom: 2rem;       /* space below the title */
+  text-align: center;
   font-family: 'Playfair Display', serif;
   font-weight: 700;
+  color: #e15921 !important;
 }
 
-button.btn {
+/* Other headings and card titles */
+h2, h3, .card-title, .list-group-item {
   font-family: 'Playfair Display', serif;
   font-weight: 700;
+  color: #e15921 !important; /* album title color */
 }
 
-/* Button colors */
+/* Buttons */
 .btn-primary {
   background-color: #e15921;
   border-color: #e15921;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
 }
-
 .btn-primary:hover {
   background-color: #e98b5b;
   border-color: #e98b5b;
 }
-
 .btn-success {
   background-color: #3f816c;
   border-color: #3f816c;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
 }
-
 .btn-success:hover {
   background-color: #8dd3c6;
   border-color: #8dd3c6;
 }
-
 .btn-secondary {
   background-color: #d73f00;
   border-color: #d73f00;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
 }
-
 .btn-secondary:hover {
   background-color: #e98b5b;
   border-color: #e98b5b;
@@ -52,20 +74,26 @@ button.btn {
   background-color: #e15921;
 }
 
-/* Cards */
-.card {
-  border-radius: 0.75rem;
-  border: 2px solid #e15921;
+/* Remove white squares on cards */
+.card,
+.card-body,
+.card-header,
+.card-footer {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
-/* Comparison “VS” text */
+/* VS text */
 strong {
   color: #d73f00;
   font-family: 'Playfair Display', serif;
   font-size: 1.25rem;
 }
 
-/* List group for final ranking */
+/* Final ranking list (compact) */
 .list-group-item {
   background-color: #e98b5b;
   color: #ffffff;
@@ -74,4 +102,24 @@ strong {
   margin-bottom: 4px;
   border-radius: 0.5rem;
   border: none;
+  padding: 0.25rem 0.5rem;
+}
+
+/* Make videos responsive */
+iframe {
+  max-width: 100%;
+  height: 160px;
+  border-radius: 0.5rem;
+  display: block;
+}
+
+/* Optional: adjust top padding for smaller screens */
+@media (max-width: 600px) {
+  .App {
+    padding-top: 3rem;
+  }
+  h1 {
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+  }
 }

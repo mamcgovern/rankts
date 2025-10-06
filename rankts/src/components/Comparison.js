@@ -1,50 +1,50 @@
-import React from 'react';
-import { Button, Row, Col, Card } from 'react-bootstrap';
+import React from "react";
+import { Row, Col, Button } from "react-bootstrap";
 
-export default function Comparison({ songA, songB, onSelect }) {
-  if (!songA || !songB) return null;
-
-  const renderVideo = (youtubeId) => (
-    <iframe
-      width="100%"
-      height="150"
-      src={`https://www.youtube.com/embed/${youtubeId}?controls=1`}
-      title="YouTube video player"
-      frameBorder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowFullScreen
-    ></iframe>
-  );
-
+const Comparison = ({ songA, songB, onSelect }) => {
   return (
-    <Row className="mb-4">
-      <Col md={5} className="mb-3 mb-md-0">
-        <Card className="h-100">
-          {renderVideo(songA.youtubeId)}
-          <Card.Body className="d-flex flex-column align-items-center">
-            <Card.Title>{songA.title}</Card.Title>
-            <Button variant="success" onClick={() => onSelect('current')}>
-              Choose
-            </Button>
-          </Card.Body>
-        </Card>
+    <Row className="mb-3" style={{ width: "100%" }}>
+      <Col xs={6}>
+        <div className="video-container">
+          <iframe
+            src={`https://www.youtube.com/embed/${songA.youtubeId}`}
+            title={songA.title}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        </div>
+        <h3>{songA.title}</h3>
+        <Button
+          variant="primary"
+          onClick={() => onSelect("A")}
+          className="w-100 mt-2"
+        >
+          This One
+        </Button>
       </Col>
 
-      <Col md={2} className="d-flex align-items-center justify-content-center">
-        <strong>VS</strong>
-      </Col>
-
-      <Col md={5}>
-        <Card className="h-100">
-          {renderVideo(songB.youtubeId)}
-          <Card.Body className="d-flex flex-column align-items-center">
-            <Card.Title>{songB.title}</Card.Title>
-            <Button variant="primary" onClick={() => onSelect('ranked')}>
-              Choose
-            </Button>
-          </Card.Body>
-        </Card>
+      <Col xs={6}>
+        <div className="video-container">
+          <iframe
+            src={`https://www.youtube.com/embed/${songB.youtubeId}`}
+            title={songB.title}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        </div>
+        <h3>{songB.title}</h3>
+        <Button
+          variant="primary"
+          onClick={() => onSelect("B")}
+          className="w-100 mt-2"
+        >
+          This One
+        </Button>
       </Col>
     </Row>
   );
-}
+};
+
+export default Comparison;
