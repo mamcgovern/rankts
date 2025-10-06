@@ -6,7 +6,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <h1>Rank the Songs</h1>
+      <h1>Rank the Life of a Showgirl Songs</h1>
       <SongRanker songs={songs} />
     </div>
   );
